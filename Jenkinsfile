@@ -51,7 +51,7 @@ pipeline {
          steps {
             echo 'Performing clean-up on local built images'
             sh "docker rmi $registry:$BUILD_NUMBER"
-            sh "docker rmi $registry:latest"
+            
          }
       }
 
@@ -59,7 +59,7 @@ pipeline {
          steps {
           script {
             echo 'Pull and Run the latest Docker Image from Hub REPO..'
-               sh "docker run -d --name storportapp -p 8000:8000  $registry:latest"
+               sh "docker run -d --name $imagename -p 8000:8000  $registry:latest"
                sh "docker ps"
             }
          }
@@ -72,6 +72,9 @@ pipeline {
         }
         cleanup {
             echo "This block always runs after other conditions are evaluated."
+            sh "docker stop $imagename"
+            sh "docker rm $imagename"
+            sh "docker rmi $registry:latest"
         }
       }  
 }

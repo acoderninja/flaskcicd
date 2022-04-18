@@ -1,6 +1,6 @@
 pipeline {
    environment {
-   imagename = "deepakdevpro/flaskapp"
+   imagename = "flask-app"
    registryCredential = 'dockerHubLogin'
    dockerImage = ''
    }

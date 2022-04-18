@@ -1,9 +1,10 @@
-node {
+pipeline {
+   node {
    stage('CheckOut Source') {
       // copy source code from local file system and test
       // for a Dockerfile to build the Docker image
       checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/acoderninja/flaskcicd.git']]])
-      git ('https://github.com/acoderninja/flaskcicd.git')
+      // git ('https://github.com/acoderninja/flaskcicd.git')
       if (!fileExists("Dockerfile")) {
          error('Dockerfile missing.')
       }
@@ -14,5 +15,6 @@ node {
    }
    stage("run docker container"){
         sh "docker run -p 8000:8000 --name flask-app -d flask-app "
-    }
+       }
+   }
 }

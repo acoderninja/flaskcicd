@@ -24,7 +24,7 @@ pipeline {
                echo 'Building Flask App Docker Container..'
                //dockerImage = docker.build imagename
                //dockerImage = docker.build registry + ":$BUILD_NUMBER"
-               sh "docker build -t deepakdevpro/automation:flask-app"
+               sh "docker build -t deepakdevpro/automation:flask-app ."
             }
          }
       }

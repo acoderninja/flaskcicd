@@ -1,6 +1,7 @@
 pipeline {
    environment {
    imagename = "flask-app"
+   registry = "deepakdevpro/automation"
    registryCredential = 'dockerHubLogin'
    dockerImage = ''
    }
@@ -19,7 +20,8 @@ pipeline {
             echo 'Building Flask App Docker Container..'
             //sh "docker build -t flask-app ."
             script {
-            dockerImage = docker.build imagename
+            //dockerImage = docker.build imagename
+            dockerImage = docker.build registry + ":$BUILD_NUMBER"
             }
          }
       }
@@ -29,9 +31,9 @@ pipeline {
          echo 'Deploying newly built Flask App Docker Container..'
          //sh "docker run -p 8000:8000 --name flask-app -d flask-app "
          script {
-            docker.withRegistry( 'https://hub.docker.com/repository/docker/deepakdevpro/automation', registryCredential ) {
+            docker.withRegistry( '', registryCredential ) {
             dockerImage.push("$BUILD_NUMBER")
-            dockerImage.push('latest')
+            //dockerImage.push('latest')
             }
          }
       }
@@ -39,8 +41,8 @@ pipeline {
 
    stage('Remove Unused docker image') {
       steps {
-         sh "docker rmi $imagename:$BUILD_NUMBER"
-         sh "docker rmi $imagename:latest"
+         sh "docker rmi $registry:$BUILD_NUMBER"
+         //sh "docker rmi $imagename:latest"
       }
    }
 }

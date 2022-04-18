@@ -65,7 +65,8 @@ pipeline {
          }
       }
 
-      post {
+   }
+   post {
         always {
             echo "This block always runs."
         }
@@ -73,6 +74,4 @@ pipeline {
             echo "This block always runs after other conditions are evaluated."
         }
       }  
-
-   }
 }

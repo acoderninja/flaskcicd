@@ -20,15 +20,15 @@ pipeline {
             script {
                echo 'Building Flask App Docker Container..'
                //dockerImage = docker.build imagename
-               dockerImage = docker.build registry + "imagename:$BUILD_NUMBER"
+               dockerImage = docker.build registry + ":$BUILD_NUMBER"
                }
          }
       }
 
-      stage("Deploy"){
+      stage("Delivery"){
          steps {
           script {
-            echo 'Deploying newly built Flask App Docker Container..'
+            echo 'Uploading the latest build to Docker Hub REPO..'
                docker.withRegistry( '', registryCredential ) {
                dockerImage.push("$BUILD_NUMBER")
                dockerImage.push('latest')
@@ -37,11 +37,11 @@ pipeline {
          }
       }
 
-      //stage('Remove Unused docker image') {
-         //steps {
-            //sh "docker rmi $registry:$BUILD_NUMBER"
-            //sh "docker rmi $imagename:latest"
-         //}
-      //}
+      stage('Remove Unused docker image') {
+         steps {
+            sh "docker rmi $registry:$BUILD_NUMBER"
+            sh "docker rmi $imagename:latest"
+         }
+      }
    }
 }

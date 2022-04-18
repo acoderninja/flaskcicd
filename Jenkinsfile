@@ -27,9 +27,9 @@ pipeline {
          }
       }
 
-      stage("Deploy"){
-         steps {
-          echo 'Deploying newly built Flask App Docker Container..'
+      //stage("Deploy"){
+         //steps {
+          //echo 'Deploying newly built Flask App Docker Container..'
          //sh "docker run -p 8000:8000 --name flask-app -d flask-app "
           //script {
             //docker.withRegistry( '', registryCredential ) {
@@ -37,8 +37,8 @@ pipeline {
                //dockerImage.push('latest')
                //}
             //}
-         }
-      }
+         //}
+      //}
 
       //stage('Remove Unused docker image') {
          //steps {

@@ -1,6 +1,6 @@
 pipeline {
    environment {
-   //imagename = "flask-app"
+   imagename = "flask-app"
    registry = "deepakdevpro/automation"
    registryCredential = 'dockerHubLogin'
    dockerImage = ''
@@ -21,8 +21,8 @@ pipeline {
             echo 'Building Flask App Docker Container..'
             //sh "docker build -t flask-app ."
             script {
-               //dockerImage = docker.build imagename
-               dockerImage = docker.build registry + ":$BUILD_NUMBER"
+               dockerImage = docker.build imagename
+               //dockerImage = docker.build registry + ":$BUILD_NUMBER"
             }
          }
       }

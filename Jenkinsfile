@@ -17,9 +17,8 @@ pipeline {
 
       stage('Build') {
          steps {
-         // build the docker image from the source code using the BUILD_ID parameter in image name
-
-            //sh "docker build -t flask-app ."
+            // build the docker image from the source code using the BUILD_ID parameter in image name
+            // sh "docker build -t flask-app ."
             script {
                echo 'Building Flask App Docker Container..'
                //dockerImage = docker.build imagename

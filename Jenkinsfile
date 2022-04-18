@@ -25,6 +25,16 @@ pipeline {
          }
       }
 
+      stage('Test') {
+         steps {
+            // build the docker image from the source code using the BUILD_ID parameter in image name
+            script {
+               echo 'Running Tests for Flask App..'
+               
+               }
+         }
+      }
+
       stage("Delivery"){
          steps {
           script {
@@ -37,7 +47,7 @@ pipeline {
          }
       }
 
-      stage('Cleanup') {
+      stage('Post Build Cleanup') {
          steps {
             echo 'Performing clean-up on local built images'
             sh "docker rmi $registry:$BUILD_NUMBER"
@@ -45,18 +55,23 @@ pipeline {
          }
       }
 
-
       stage("Deployment"){
          steps {
           script {
             echo 'Pull and Run the latest Docker Image from Hub REPO..'
-               // docker.withRegistry( '', registryCredential ) {
                sh "docker run -d --name storportapp -p 8000:8000  $registry:latest"
                sh "docker ps"
-               // }
             }
          }
       }
+
+      post {
+        always {
+            echo "This block always runs."
+        }
+        cleanup {
+            echo "This block always runs after other conditions are evaluated."
+        }
 
    }
 }

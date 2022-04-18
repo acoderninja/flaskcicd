@@ -29,7 +29,7 @@ pipeline {
          echo 'Deploying newly built Flask App Docker Container..'
          //sh "docker run -p 8000:8000 --name flask-app -d flask-app "
          script {
-            docker.withRegistry( '', registryCredential ) {
+            docker.withRegistry( 'https://hub.docker.com/repository/docker/deepakdevpro/automation', registryCredential ) {
             dockerImage.push("$BUILD_NUMBER")
             dockerImage.push('latest')
             }

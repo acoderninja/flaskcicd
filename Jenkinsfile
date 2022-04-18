@@ -37,11 +37,26 @@ pipeline {
          }
       }
 
-      stage('Remove Unused docker image') {
+      stage('Cleanup') {
          steps {
+            echo 'Performing clean-up on local built images'
             sh "docker rmi $registry:$BUILD_NUMBER"
-            sh "docker rmi $imagename:latest"
+            sh "docker rmi $registry:latest"
          }
       }
+
+
+      stage("Deployment"){
+         steps {
+          script {
+            echo 'Pull and Run the latest Docker Image from Hub REPO..'
+               // docker.withRegistry( '', registryCredential ) {
+               sh "docker run -d --name storportapp -p 8000:8000  $registry:latest"
+               sh "docker ps"
+               // }
+            }
+         }
+      }
+
    }
 }
